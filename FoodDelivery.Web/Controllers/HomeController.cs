@@ -1,8 +1,8 @@
-using FoodDeliveryApp.Models;
+using FoodDelivery.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace FoodDeliveryApp.Controllers
+namespace FoodDelivery.Web.Controllers
 {
     public class HomeController : Controller
     {

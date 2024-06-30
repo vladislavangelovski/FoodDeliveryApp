@@ -1,4 +1,4 @@
-namespace FoodDeliveryApp.Models
+namespace FoodDelivery.Domain
 {
     public class ErrorViewModel
     {
