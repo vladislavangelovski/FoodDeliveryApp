@@ -4,6 +4,7 @@ using FoodDelivery.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDelivery.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240702235157_ChangesInModels")]
+    partial class ChangesInModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,24 +24,6 @@ namespace FoodDelivery.Repository.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("FoodDelivery.Domain.DomainModels.DeliveryOrder", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("OwnerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OwnerId")
-                        .IsUnique()
-                        .HasFilter("[OwnerId] IS NOT NULL");
-
-                    b.ToTable("DeliveryOrder");
-                });
 
             modelBuilder.Entity("FoodDelivery.Domain.DomainModels.FoodItem", b =>
                 {
@@ -64,33 +49,6 @@ namespace FoodDelivery.Repository.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FoodItems");
-                });
-
-            modelBuilder.Entity("FoodDelivery.Domain.DomainModels.FoodItemInDelivery", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("DeliveryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("DeliveryOrderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("FoodItemInRestaurantId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DeliveryOrderId");
-
-                    b.HasIndex("FoodItemInRestaurantId");
-
-                    b.ToTable("FoodItemInDelivery");
                 });
 
             modelBuilder.Entity("FoodDelivery.Domain.DomainModels.Restaurant", b =>
@@ -133,9 +91,6 @@ namespace FoodDelivery.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<Guid>("FoodItemId")
                         .HasColumnType("uniqueidentifier");
 
@@ -143,8 +98,6 @@ namespace FoodDelivery.Repository.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("FoodItemId");
 
@@ -360,38 +313,8 @@ namespace FoodDelivery.Repository.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("FoodDelivery.Domain.DomainModels.DeliveryOrder", b =>
-                {
-                    b.HasOne("FoodDelivery.Domain.Identity.Customer", "Owner")
-                        .WithOne("DeliveryOrder")
-                        .HasForeignKey("FoodDelivery.Domain.DomainModels.DeliveryOrder", "OwnerId");
-
-                    b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("FoodDelivery.Domain.DomainModels.FoodItemInDelivery", b =>
-                {
-                    b.HasOne("FoodDelivery.Domain.DomainModels.DeliveryOrder", "DeliveryOrder")
-                        .WithMany("FoodItemInDeliveries")
-                        .HasForeignKey("DeliveryOrderId");
-
-                    b.HasOne("FoodDelivery.Domain.DomainModels.RestaurantFoodItem", "FoodItemInRestaurant")
-                        .WithMany()
-                        .HasForeignKey("FoodItemInRestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DeliveryOrder");
-
-                    b.Navigation("FoodItemInRestaurant");
-                });
-
             modelBuilder.Entity("FoodDelivery.Domain.DomainModels.RestaurantFoodItem", b =>
                 {
-                    b.HasOne("FoodDelivery.Domain.Identity.Customer", null)
-                        .WithMany("RestaurantFoodItem")
-                        .HasForeignKey("CustomerId");
-
                     b.HasOne("FoodDelivery.Domain.DomainModels.FoodItem", "FoodItem")
                         .WithMany("restaurantFoodItems")
                         .HasForeignKey("FoodItemId")
@@ -460,11 +383,6 @@ namespace FoodDelivery.Repository.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FoodDelivery.Domain.DomainModels.DeliveryOrder", b =>
-                {
-                    b.Navigation("FoodItemInDeliveries");
-                });
-
             modelBuilder.Entity("FoodDelivery.Domain.DomainModels.FoodItem", b =>
                 {
                     b.Navigation("restaurantFoodItems");
@@ -473,13 +391,6 @@ namespace FoodDelivery.Repository.Migrations
             modelBuilder.Entity("FoodDelivery.Domain.DomainModels.Restaurant", b =>
                 {
                     b.Navigation("restaurantFoodItems");
-                });
-
-            modelBuilder.Entity("FoodDelivery.Domain.Identity.Customer", b =>
-                {
-                    b.Navigation("DeliveryOrder");
-
-                    b.Navigation("RestaurantFoodItem");
                 });
 #pragma warning restore 612, 618
         }

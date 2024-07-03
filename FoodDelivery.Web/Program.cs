@@ -1,4 +1,9 @@
+using FoodDelivery.Domain.Identity;
 using FoodDelivery.Repository;
+using FoodDelivery.Repository.Implementation;
+using FoodDelivery.Repository.Interface;
+using FoodDelivery.Service.Implementation;
+using FoodDelivery.Service.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,9 +15,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<Customer>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+builder.Services.AddTransient<IRestaurantService, RestaurantService>();
+builder.Services.AddTransient<IFoodItemService, FoodItemService>();
+
 
 var app = builder.Build();
 
