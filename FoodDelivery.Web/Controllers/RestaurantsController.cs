@@ -8,19 +8,22 @@ using Microsoft.EntityFrameworkCore;
 using FoodDelivery.Domain.DomainModels;
 using FoodDelivery.Repository;
 using FoodDelivery.Service.Interface;
+using FoodDelivery.Domain.DTO;
 
 namespace FoodDelivery.Web.Controllers
 {
     public class RestaurantsController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IRestaurantService _restaurantService;
+        private readonly IFoodItemService _foodItemService;
 
-        public RestaurantsController(ApplicationDbContext context, IRestaurantService restaurantService)
+        public RestaurantsController(IRestaurantService restaurantService, IFoodItemService foodItemService)
         {
-            _context = context;
             _restaurantService = restaurantService;
+            _foodItemService = foodItemService;
         }
+
+
 
         // GET: Restaurants
         public async Task<IActionResult> Index()
@@ -37,12 +40,40 @@ namespace FoodDelivery.Web.Controllers
             }
 
             var restaurant = _restaurantService.GetRestaurantById(id);
+            ShowFoodItemsInRestaurantDTO showFoodItemsInRestaurantDTO = new ShowFoodItemsInRestaurantDTO()
+            {
+                Restaurant = restaurant,
+                FoodItemsInRestaurant = _foodItemService.ShowFoodItemsInRestaurant((Guid)id)
+            };
             if (restaurant == null)
             {
                 return NotFound();
             }
 
-            return View(restaurant);
+            return View(showFoodItemsInRestaurantDTO);
+        }
+
+        public IActionResult AddFoodItemToRestaurant(Guid id)
+        {
+            AddFoodItemToRestaurantDTO addFoodItemToRestaurantDTO = new AddFoodItemToRestaurantDTO
+            {
+                RestaurantId = id
+            };
+
+
+            return View(addFoodItemToRestaurantDTO);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddFoodItemToRestaurant(AddFoodItemToRestaurantDTO addFoodItemToRestaurantDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                _foodItemService.AddFoodItemToRestaurant(addFoodItemToRestaurantDTO);
+                return RedirectToAction("Details", new {id = addFoodItemToRestaurantDTO.RestaurantId});
+            }
+            return View(addFoodItemToRestaurantDTO);
         }
 
         // GET: Restaurants/Create

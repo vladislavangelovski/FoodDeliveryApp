@@ -1,4 +1,4 @@
-﻿@model FoodDelivery.Domain.DomainModels.Restaurant
+﻿@model FoodDelivery.Domain.DTO.ShowFoodItemsInRestaurantDTO
 
 @{
     ViewData["Title"] = "Details";
@@ -11,44 +11,82 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Restaurant.Name)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Restaurant.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
+            @Html.DisplayNameFor(model => model.Restaurant.Address)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
+            @Html.DisplayFor(model => model.Restaurant.Address)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            @Html.DisplayNameFor(model => model.Restaurant.PhoneNumber)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhoneNumber)
+            @Html.DisplayFor(model => model.Restaurant.PhoneNumber)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Restaurant.Description)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Restaurant.Description)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Image)
+            @Html.DisplayNameFor(model => model.Restaurant.Image)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Image)
+            @Html.DisplayFor(model => model.Restaurant.Image)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Rating)
+            @Html.DisplayNameFor(model => model.Restaurant.Rating)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Rating)
+            @Html.DisplayFor(model => model.Restaurant.Rating)
         </dd>
     </dl>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Desc
+                </th>
+                <th>
+                    Image
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.FoodItemsInRestaurant)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FoodItem.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FoodItem.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FoodItem.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FoodItem.Image)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Restaurant.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a> |
+    <a asp-action="AddFoodItemToRestaurant" asp-route-id="@Model?.Restaurant.Id">AddFoodItemToRestaurant</a>
 </div>

@@ -47,7 +47,7 @@ namespace FoodDelivery.Repository.Implementation
             }
             else
             {
-                return entities.First(s => s.Id == id);
+                return entities.FirstOrDefault(s => s.Id == id);
             }
 
         }

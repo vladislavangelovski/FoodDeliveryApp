@@ -1,4 +1,5 @@
 ﻿using FoodDelivery.Domain.DomainModels;
+using FoodDelivery.Domain.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace FoodDelivery.Service.Interface
         public FoodItem CreateNewFoodItem(FoodItem foodItem);
         public FoodItem UpdateFoodItem(FoodItem foodItem);
         public FoodItem DeleteFoodItem(Guid id);
+        public void AddFoodItemToRestaurant(AddFoodItemToRestaurantDTO addFoodItemToRestaurantDTO);
+        public List<RestaurantFoodItem> ShowFoodItemsInRestaurant(Guid restaurantId);
     }
 }
