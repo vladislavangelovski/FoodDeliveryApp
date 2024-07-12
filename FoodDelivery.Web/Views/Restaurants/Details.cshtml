@@ -10,83 +10,114 @@
     <h4>Restaurant</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Restaurant.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Restaurant.Name)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Restaurant.Address)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Restaurant.Address)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Restaurant.PhoneNumber)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Restaurant.PhoneNumber)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Restaurant.Description)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Restaurant.Description)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Restaurant.Image)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Restaurant.Image)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Restaurant.Rating)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Restaurant.Rating)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Restaurant.Rating)/5
         </dd>
     </dl>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Price
-                </th>
-                <th>
-                    Desc
-                </th>
-                <th>
-                    Image
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.FoodItemsInRestaurant)
+
+    <div>
+        <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model?.Restaurant.Id">Edit</a>
+        <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+    </div>
+    <br />
+
+    <div class="bg-success text-center text-light">
+        <h1> Menu </h1>
+    </div>
+
+    <div class="container-fluid">
+
+        <a asp-action="AddFoodItemToRestaurant" asp-route-id="@Model?.Restaurant.Id" class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+            </svg>Add FoodItem To Restaurant
+        </a>
+
+        @for (int i = 0; i < Model.FoodItemsInRestaurant?.Count(); i++)
+        {
+            var item = Model.FoodItemsInRestaurant[i];
+
+            if(i % 3 == 0)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FoodItem.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FoodItem.Price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FoodItem.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FoodItem.Image)
-                    </td>
-                </tr>
+               @: <div class="row mt-3" style="justify-content:center;">
             }
-        </tbody>
-    </table>
+
+            <div class="col-md-3 m-3 p-3">
+
+                <div class="card" style="width: 23rem; height:100%">
+                  <img class="card-img-top" src="@item.FoodItem.Image" style="width:100%; height:100%;" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">@item.FoodItem.Name</h5>
+                    <p class="card-text">@item.FoodItem.Description</p>
+                    <h6 class="card-text">$@item.FoodItem.Price</h6>
+                  </div>
+              
+                  <div class="card-footer">
+                    <a href="/FoodItems/Edit/@item.FoodItem.Id" class="btn btn-info" style="float:right; margin-left: 10px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+                        </svg>
+                    </a>
+                    <a href="/FoodItems/Delete/@item.FoodItem.Id" class="btn btn-danger" style="float:right; margin-left: 10px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                        </svg>
+                    </a>
+
+                     <a href="/FoodItems/AddProductToCart/@item.FoodItem.Id" class="btn btn-warning" style="float:right; margin-left: 10px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-check" viewBox="0 0 16 16">
+                            <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+                            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                        </svg>
+                    </a>
+                  </div>
+                </div>
+
+            </div>
+
+
+
+            if(i % 3 == 2)
+            {
+                @: </div>
+            }
+
+        }
+
+
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Restaurant.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a> |
-    <a asp-action="AddFoodItemToRestaurant" asp-route-id="@Model?.Restaurant.Id">AddFoodItemToRestaurant</a>
-</div>
+

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FoodDelivery.Domain.DomainModels;
 using FoodDelivery.Repository;
 using FoodDelivery.Service.Interface;
+using FoodDelivery.Repository.Interface;
 
 namespace FoodDelivery.Web.Controllers
 {
@@ -15,12 +16,16 @@ namespace FoodDelivery.Web.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IFoodItemService _foodItemService;
+        private readonly IRepository<RestaurantFoodItem> _Repository;
 
-        public FoodItemsController(ApplicationDbContext context, IFoodItemService foodItemService)
+        public FoodItemsController(ApplicationDbContext context, IFoodItemService foodItemService, IRepository<RestaurantFoodItem> repository)
         {
             _context = context;
             _foodItemService = foodItemService;
+            _Repository = repository;
         }
+
+
 
 
 
@@ -99,7 +104,13 @@ namespace FoodDelivery.Web.Controllers
             if (ModelState.IsValid)
             {
                 _foodItemService.UpdateFoodItem(foodItem);
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                var restaurantId = _context.RestaurantFoodItems
+                    .Where(rfi => rfi.FoodItemId == foodItem.Id)
+                    .Select(rfi => rfi.RestaurantId)
+                    .FirstOrDefault();
+
+                return RedirectToAction("Details", "Restaurants", new { id = restaurantId });
             }
             return View(foodItem);
         }

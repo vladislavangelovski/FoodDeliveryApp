@@ -20,6 +20,7 @@ namespace FoodDelivery.Domain.DomainModels
         [Required]
         public string? Image { get; set; }
         [Required]
+        [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5.")]
         public double Rating { get; set; }
 
         public ICollection<RestaurantFoodItem>? restaurantFoodItems { get; set; }
