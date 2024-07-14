@@ -23,32 +23,12 @@ namespace FoodDelivery.Repository.Implementation
         }
         public IEnumerable<T> GetAll()
         {
-            if (typeof(T).IsAssignableFrom(typeof(RestaurantFoodItem)))
-            {
-                return entities
-                    .Include("Restaurant")
-                    .Include("FoodItem")
-                    .AsEnumerable();
-            }
-            else
-            {
-                return entities.AsEnumerable();
-            }
+            return entities.AsEnumerable();
         }
 
         public T Get(Guid? id)
         {
-            if (typeof(T).IsAssignableFrom(typeof(RestaurantFoodItem)))
-            {
-                return entities
-                    .Include("Restaurant")
-                    .Include("FoodItem")
-                    .First(s => s.Id == id);
-            }
-            else
-            {
-                return entities.FirstOrDefault(s => s.Id == id);
-            }
+            return entities.First(s => s.Id == id);
 
         }
         public T Insert(T entity)

@@ -23,7 +23,7 @@ namespace FoodDelivery.Domain.DomainModels
         [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5.")]
         public double Rating { get; set; }
 
-        public ICollection<RestaurantFoodItem>? restaurantFoodItems { get; set; }
+        public virtual ICollection<FoodItem>? FoodItems { get; set; } = new List<FoodItem>();
 
     }
 }

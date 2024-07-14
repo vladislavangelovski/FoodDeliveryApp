@@ -14,35 +14,28 @@ namespace FoodDelivery.Service.Implementation
     {
         private readonly IRepository<FoodItem> _foodItemRepository;
         private readonly IRepository<Restaurant> _restaurantRepository;
-        private IRepository<RestaurantFoodItem> _restaurantFoodItemRepository;
 
-        public FoodItemService(IRepository<FoodItem> foodItemRepository, IRepository<Restaurant> restaurantRepository, IRepository<RestaurantFoodItem> restaurantFoodItemRepository)
+        public FoodItemService(IRepository<FoodItem> foodItemRepository, IRepository<Restaurant> restaurantRepository)
         {
             _foodItemRepository = foodItemRepository;
             _restaurantRepository = restaurantRepository;
-            _restaurantFoodItemRepository = restaurantFoodItemRepository;
         }
 
         public void AddFoodItemToRestaurant(AddFoodItemToRestaurantDTO addFoodItemToRestaurantDTO)
         {
+            Restaurant restaurant = _restaurantRepository.Get(addFoodItemToRestaurantDTO.RestaurantId);
             FoodItem newFoodItem = new FoodItem()
             {
                 Id = Guid.NewGuid(),
                 Name = addFoodItemToRestaurantDTO.Name,
                 Price = addFoodItemToRestaurantDTO.Price,
                 Description = addFoodItemToRestaurantDTO.Description,
-                Image = addFoodItemToRestaurantDTO.ImageUrl
+                Image = addFoodItemToRestaurantDTO.ImageUrl,
+                Category = addFoodItemToRestaurantDTO.Category,
+                Restaurant = restaurant,
+                RestaurantId = addFoodItemToRestaurantDTO.RestaurantId
             };
             _foodItemRepository.Insert(newFoodItem);
-            RestaurantFoodItem restaurantFoodItem = new RestaurantFoodItem()
-            {
-                Id = Guid.NewGuid(),
-                FoodItemId = newFoodItem.Id,
-                FoodItem = _foodItemRepository.Get(newFoodItem.Id),
-                RestaurantId = addFoodItemToRestaurantDTO.RestaurantId,
-                Restaurant = _restaurantRepository.Get(addFoodItemToRestaurantDTO.RestaurantId)
-            };
-            _restaurantFoodItemRepository.Insert(restaurantFoodItem);
         }
 
         public FoodItem CreateNewFoodItem(FoodItem foodItem)
@@ -66,12 +59,9 @@ namespace FoodDelivery.Service.Implementation
             return _foodItemRepository.GetAll().ToList();
         }
 
-        public List<RestaurantFoodItem> ShowFoodItemsInRestaurant(Guid restaurantId)
+        public List<FoodItem> ShowFoodItemsInRestaurant(Guid restaurantId)
         {
-            //var restaurant = _restaurantRepository.Get(restaurantId);
-            //var allFoodItemsInRestaurant = restaurant.restaurantFoodItems.Where(z => z.RestaurantId == restaurantId).ToList();
-            //return allFoodItemsInRestaurant;
-            return _restaurantFoodItemRepository.GetAll().Where(z => z.RestaurantId == restaurantId).ToList();
+            return _foodItemRepository.GetAll().Where(z => z.RestaurantId == restaurantId).ToList();
         }
 
         public FoodItem UpdateFoodItem(FoodItem foodItem)

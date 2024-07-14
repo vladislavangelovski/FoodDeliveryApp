@@ -17,16 +17,18 @@ namespace FoodDelivery.Web.Controllers
         private readonly IRestaurantService _restaurantService;
         private readonly IFoodItemService _foodItemService;
 
-        public RestaurantsController(IRestaurantService restaurantService, IFoodItemService foodItemService)
+        private readonly ApplicationDbContext _context;
+
+        public RestaurantsController(IRestaurantService restaurantService, IFoodItemService foodItemService, ApplicationDbContext context)
         {
             _restaurantService = restaurantService;
             _foodItemService = foodItemService;
+            _context = context;
         }
 
 
-
         // GET: Restaurants
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View(_restaurantService.GetRestaurants());
         }
@@ -40,21 +42,28 @@ namespace FoodDelivery.Web.Controllers
             }
 
             var restaurant = _restaurantService.GetRestaurantById(id);
-            ShowFoodItemsInRestaurantDTO showFoodItemsInRestaurantDTO = new ShowFoodItemsInRestaurantDTO()
-            {
-                Restaurant = restaurant,
-                FoodItemsInRestaurant = _foodItemService.ShowFoodItemsInRestaurant((Guid)id)
-            };
             if (restaurant == null)
             {
                 return NotFound();
             }
+
+            var showFoodItemsInRestaurantDTO = new ShowFoodItemsInRestaurantDTO()
+            {
+                Restaurant = restaurant,
+                FoodItemsInRestaurant = _foodItemService.ShowFoodItemsInRestaurant((Guid)id)
+            };
+
 
             return View(showFoodItemsInRestaurantDTO);
         }
 
         public IActionResult AddFoodItemToRestaurant(Guid id)
         {
+            var rest = _restaurantService.GetRestaurantById(id);
+            if(rest == null)
+            {
+                return NotFound();
+            }
             AddFoodItemToRestaurantDTO addFoodItemToRestaurantDTO = new AddFoodItemToRestaurantDTO
             {
                 RestaurantId = id
@@ -71,9 +80,9 @@ namespace FoodDelivery.Web.Controllers
             if (ModelState.IsValid)
             {
                 _foodItemService.AddFoodItemToRestaurant(addFoodItemToRestaurantDTO);
-                return RedirectToAction("Details", new {id = addFoodItemToRestaurantDTO.RestaurantId});
+                return RedirectToAction("Details", new { id = addFoodItemToRestaurantDTO.RestaurantId });
             }
-            return View(addFoodItemToRestaurantDTO);
+            return View(addFoodItemToRestaurantDTO);            
         }
 
         // GET: Restaurants/Create

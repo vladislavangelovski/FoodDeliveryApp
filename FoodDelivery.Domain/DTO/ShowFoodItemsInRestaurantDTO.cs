@@ -10,6 +10,7 @@ namespace FoodDelivery.Domain.DTO
     public class ShowFoodItemsInRestaurantDTO
     {
         public Restaurant Restaurant{ get; set; }
-        public List<RestaurantFoodItem>? FoodItemsInRestaurant{ get; set; }
+        public List<FoodItem> FoodItemsInRestaurant{ get; set; }
+        public AddFoodItemToRestaurantDTO NewFoodItem { get; set; } = new AddFoodItemToRestaurantDTO();
     }
 }

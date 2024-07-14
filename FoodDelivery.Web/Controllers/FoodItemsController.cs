@@ -16,16 +16,14 @@ namespace FoodDelivery.Web.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IFoodItemService _foodItemService;
-        private readonly IRepository<RestaurantFoodItem> _Repository;
+        private readonly IRestaurantService _restaurantService;
 
-        public FoodItemsController(ApplicationDbContext context, IFoodItemService foodItemService, IRepository<RestaurantFoodItem> repository)
+        public FoodItemsController(ApplicationDbContext context, IFoodItemService foodItemService, IRestaurantService restaurantService)
         {
             _context = context;
             _foodItemService = foodItemService;
-            _Repository = repository;
+            _restaurantService = restaurantService;
         }
-
-
 
 
 
@@ -63,7 +61,7 @@ namespace FoodDelivery.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Name,Price,Description,Image,Id")] FoodItem foodItem)
+        public IActionResult Create( [Bind("Name,Price,Description,Image,Category,Id")] FoodItem foodItem)
         {
             if (ModelState.IsValid)
             {
@@ -94,23 +92,44 @@ namespace FoodDelivery.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, [Bind("Name,Price,Description,Image,Id")] FoodItem foodItem)
+        public IActionResult Edit(Guid id, [Bind("Name,Price,Description,Image,Category,Id,RestaurantId")] FoodItem foodItem)
         {
             if (id != foodItem.Id)
             {
                 return NotFound();
             }
+            if (foodItem?.RestaurantId == null)
+            {
+                return NotFound();
+            }
+
 
             if (ModelState.IsValid)
             {
-                _foodItemService.UpdateFoodItem(foodItem);
-                //return RedirectToAction(nameof(Index));
-                var restaurantId = _context.RestaurantFoodItems
-                    .Where(rfi => rfi.FoodItemId == foodItem.Id)
-                    .Select(rfi => rfi.RestaurantId)
-                    .FirstOrDefault();
+                // Ensure the RestaurantId exists
+                var restaurant = _restaurantService.GetRestaurantById(foodItem.RestaurantId);
+                if (restaurant == null)
+                {
+                    ModelState.AddModelError("", "Invalid RestaurantId.");
+                    return View(foodItem);
+                }
 
-                return RedirectToAction("Details", "Restaurants", new { id = restaurantId });
+                try
+                {
+                    _foodItemService.UpdateFoodItem(foodItem);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!FoodItemExists(foodItem.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("Details", "Restaurants", new { id = foodItem.RestaurantId });
             }
             return View(foodItem);
         }
@@ -137,8 +156,9 @@ namespace FoodDelivery.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(Guid id)
         {
+            FoodItem foodItem = _foodItemService.GetFoodItemById(id);
             _foodItemService.DeleteFoodItem(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Restaurants", new { id = foodItem.RestaurantId });
         }
 
         private bool FoodItemExists(Guid id)

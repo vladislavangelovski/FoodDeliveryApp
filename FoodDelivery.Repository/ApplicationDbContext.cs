@@ -17,7 +17,10 @@ namespace FoodDelivery.Repository
         }
         public virtual DbSet<FoodItem> FoodItems { get; set; }
         public virtual DbSet<Restaurant> Restaurants { get; set; }
-        public virtual DbSet<RestaurantFoodItem> RestaurantFoodItems { get; set; }
+        public virtual DbSet<DeliveryOrder> DeliveryOrders { get; set; }
+        public virtual DbSet<FoodItemInDelivery> FoodItemInDeliveries { get; set; }
+        //public virtual DbSet<Order> Orders { get; set; }
+        //public virtual DbSet<FoodItemInOrder> FoodItemInOrders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

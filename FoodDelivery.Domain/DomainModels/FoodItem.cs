@@ -17,7 +17,9 @@ namespace FoodDelivery.Domain.DomainModels
         public string? Description { get; set; }
         [Required]
         public string? Image { get; set; }
-        
-        public ICollection<RestaurantFoodItem>? restaurantFoodItems { get; set; }
+        [Required]
+        public string? Category { get; set; }
+        public Guid RestaurantId { get; set; }
+        public virtual Restaurant? Restaurant { get; set; }
     }
 }

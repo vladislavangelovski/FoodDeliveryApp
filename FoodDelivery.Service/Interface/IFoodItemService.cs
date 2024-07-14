@@ -16,6 +16,6 @@ namespace FoodDelivery.Service.Interface
         public FoodItem UpdateFoodItem(FoodItem foodItem);
         public FoodItem DeleteFoodItem(Guid id);
         public void AddFoodItemToRestaurant(AddFoodItemToRestaurantDTO addFoodItemToRestaurantDTO);
-        public List<RestaurantFoodItem> ShowFoodItemsInRestaurant(Guid restaurantId);
+        public List<FoodItem> ShowFoodItemsInRestaurant(Guid restaurantId);
     }
 }
