@@ -20,9 +20,11 @@ builder.Services.AddDefaultIdentity<Customer>(options => options.SignIn.RequireC
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped(typeof(ICustomerRepository), typeof(CustomerRepository));
 
 builder.Services.AddTransient<IRestaurantService, RestaurantService>();
 builder.Services.AddTransient<IFoodItemService, FoodItemService>();
+builder.Services.AddTransient<IDeliveryService, DeliveryService>();
 
 
 var app = builder.Build();

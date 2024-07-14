@@ -10,6 +10,6 @@ namespace FoodDelivery.Domain.DTO
     {
         public Guid SelectedFoodItemId { get; set; }
         public string? SelectedFoodItemName { get; set; }
-        //public 
+        public int Quantity { get; set; } 
     }
 }

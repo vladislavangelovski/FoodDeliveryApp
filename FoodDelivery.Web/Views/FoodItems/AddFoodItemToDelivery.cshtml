@@ -1,0 +1,29 @@
+﻿@model FoodDelivery.Domain.DTO.AddToDeliveryDTO
+
+<div class="container">
+    <form method="post" asp-action="AddFoodItemToDelivery">
+
+        <input type="hidden" asp-for="SelectedFoodItemId" value="@Model.SelectedFoodItemId" class="form-control" />
+
+        <div class="row mt-4">
+            <div class="form-group">
+                <label asp-for="SelectedFoodItemName" class="control-label"></label>
+                <input asp-for="SelectedFoodItemName" class="form-control" />
+                <span asp-validation-for="SelectedFoodItemName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" type="number" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <button type="submit" class="btn btn-success">Add To Delivery</button>
+        </div>
+    </form>
+
+</div>

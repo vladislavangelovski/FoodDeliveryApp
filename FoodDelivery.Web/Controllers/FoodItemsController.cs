@@ -9,6 +9,8 @@ using FoodDelivery.Domain.DomainModels;
 using FoodDelivery.Repository;
 using FoodDelivery.Service.Interface;
 using FoodDelivery.Repository.Interface;
+using System.Security.Claims;
+using FoodDelivery.Domain.DTO;
 
 namespace FoodDelivery.Web.Controllers
 {
@@ -17,13 +19,17 @@ namespace FoodDelivery.Web.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IFoodItemService _foodItemService;
         private readonly IRestaurantService _restaurantService;
+        private readonly IDeliveryService _deliveryService;
 
-        public FoodItemsController(ApplicationDbContext context, IFoodItemService foodItemService, IRestaurantService restaurantService)
+        public FoodItemsController(ApplicationDbContext context, IFoodItemService foodItemService, IRestaurantService restaurantService, IDeliveryService deliveryService)
         {
             _context = context;
             _foodItemService = foodItemService;
             _restaurantService = restaurantService;
+            _deliveryService = deliveryService;
         }
+
+
 
 
 
@@ -50,7 +56,7 @@ namespace FoodDelivery.Web.Controllers
             return View(foodItem);
         }
 
-        // GET: FoodItems/Create
+        /*// GET: FoodItems/Create
         public IActionResult Create()
         {
             return View();
@@ -69,7 +75,7 @@ namespace FoodDelivery.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(foodItem);
-        }
+        }*/
 
         // GET: FoodItems/Edit/5
         public IActionResult Edit(Guid? id)
@@ -159,6 +165,29 @@ namespace FoodDelivery.Web.Controllers
             FoodItem foodItem = _foodItemService.GetFoodItemById(id);
             _foodItemService.DeleteFoodItem(id);
             return RedirectToAction("Details", "Restaurants", new { id = foodItem.RestaurantId });
+        }
+        public IActionResult AddFoodItemToDelivery(Guid Id)
+        {
+            var result = _deliveryService.GetFoodItemInfo(Id);
+            if (result != null)
+            {
+                return View(result);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddFoodItemToDelivery(AddToDeliveryDTO model)
+        {
+            var customerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var result = _deliveryService.AddFoodItemToDelivery(customerId, model);
+
+            if (result != null)
+            {
+                return RedirectToAction("Index", "DeliveryOrders");
+            }
+            else { return View(model); }
         }
 
         private bool FoodItemExists(Guid id)
