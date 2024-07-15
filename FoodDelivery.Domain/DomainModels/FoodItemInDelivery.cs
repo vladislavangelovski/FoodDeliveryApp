@@ -10,7 +10,7 @@ namespace FoodDelivery.Domain.DomainModels
     {
         public Guid FoodItemId{ get; set; }
         public FoodItem? FoodItem{ get; set; }
-        public Guid DeliveryId { get; set; }
+        public Guid DeliveryOrderId { get; set; }
         public DeliveryOrder? DeliveryOrder { get; set; }
         public int Quantity { get; set; }
     }

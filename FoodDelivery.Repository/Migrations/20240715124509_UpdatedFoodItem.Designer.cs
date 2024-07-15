@@ -4,6 +4,7 @@ using FoodDelivery.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDelivery.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240715124509_UpdatedFoodItem")]
+    partial class UpdatedFoodItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,7 +89,10 @@ namespace FoodDelivery.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("DeliveryOrderId")
+                    b.Property<Guid>("DeliveryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("DeliveryOrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("FoodItemId")
@@ -413,9 +419,7 @@ namespace FoodDelivery.Repository.Migrations
                 {
                     b.HasOne("FoodDelivery.Domain.DomainModels.DeliveryOrder", "DeliveryOrder")
                         .WithMany("FoodItemInDeliveries")
-                        .HasForeignKey("DeliveryOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DeliveryOrderId");
 
                     b.HasOne("FoodDelivery.Domain.DomainModels.FoodItem", "FoodItem")
                         .WithMany("FoodItemInDeliveries")

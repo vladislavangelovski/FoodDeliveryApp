@@ -47,7 +47,7 @@ namespace FoodDelivery.Service.Implementation
                         FoodItem = selectedFoodItem,
                         FoodItemId = selectedFoodItem.Id,
                         DeliveryOrder = customerDelivery,
-                        DeliveryId = customerDelivery.Id,
+                        DeliveryOrderId = customerDelivery.Id,
                         Quantity = model.Quantity
                     });
 
