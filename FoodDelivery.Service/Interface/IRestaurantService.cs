@@ -1,4 +1,5 @@
 ﻿using FoodDelivery.Domain.DomainModels;
+using FoodDelivery.Domain.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace FoodDelivery.Service.Interface
         public Restaurant CreateNewRestaurant(Restaurant restaurant);
         public Restaurant UpdateRestaurant(Restaurant restaurant);
         public Restaurant DeleteRestaurant(Guid id);
+        public void RateRestaurant(string customerId, RestaurantRatingDTO viewModel);
     }
 }

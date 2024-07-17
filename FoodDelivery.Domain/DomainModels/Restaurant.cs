@@ -19,11 +19,11 @@ namespace FoodDelivery.Domain.DomainModels
         public string? Description { get; set; }
         [Required]
         public string? Image { get; set; }
-        [Required]
-        [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5.")]
+        
         public double Rating { get; set; }
 
         public virtual ICollection<FoodItem>? FoodItems { get; set; } = new List<FoodItem>();
+        public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
 
     }
 }

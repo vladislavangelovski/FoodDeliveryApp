@@ -16,5 +16,6 @@ namespace FoodDelivery.Domain.Identity
         public string? PhoneNumber { get; set; }
         public DeliveryOrder? DeliveryOrder { get; set; }
         public virtual ICollection<FoodItem>? MyFoodItems { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
     }
 }

@@ -9,6 +9,10 @@ using FoodDelivery.Domain.DomainModels;
 using FoodDelivery.Repository;
 using FoodDelivery.Service.Interface;
 using FoodDelivery.Domain.DTO;
+using Microsoft.AspNetCore.Identity;
+using FoodDelivery.Repository.Interface;
+using FoodDelivery.Domain.Identity;
+using System.Security.Claims;
 
 namespace FoodDelivery.Web.Controllers
 {
@@ -16,14 +20,20 @@ namespace FoodDelivery.Web.Controllers
     {
         private readonly IRestaurantService _restaurantService;
         private readonly IFoodItemService _foodItemService;
+        private readonly ICustomerRepository _customerRepository;
+        private readonly IRepository<Rating> _ratingRepository;
 
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<Customer> _userManager;
 
-        public RestaurantsController(IRestaurantService restaurantService, IFoodItemService foodItemService, ApplicationDbContext context)
+        public RestaurantsController(IRestaurantService restaurantService, IFoodItemService foodItemService, ICustomerRepository customerRepository, IRepository<Rating> ratingRepository, ApplicationDbContext context, UserManager<Customer> userManager)
         {
             _restaurantService = restaurantService;
             _foodItemService = foodItemService;
+            _customerRepository = customerRepository;
+            _ratingRepository = ratingRepository;
             _context = context;
+            _userManager = userManager;
         }
 
 
@@ -83,6 +93,38 @@ namespace FoodDelivery.Web.Controllers
                 return RedirectToAction("Details", new { id = addFoodItemToRestaurantDTO.RestaurantId });
             }
             return View(addFoodItemToRestaurantDTO);            
+        }
+
+        public IActionResult Rate(Guid id)
+        {
+            var rest = _restaurantService.GetRestaurantById(id);
+            if (rest == null)
+            {
+                return NotFound();
+            }
+            RestaurantRatingDTO restaurantRatingDTO = new RestaurantRatingDTO
+            {
+                RestaurantId = id,
+                RestaurantName = rest.Name
+            };
+
+            return View(restaurantRatingDTO);
+        }
+
+        // POST: Restaurants/Rate
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Rate(RestaurantRatingDTO viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var customerId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? null;
+                _restaurantService.RateRestaurant(customerId, viewModel);
+                
+                return RedirectToAction(nameof(Index), new { id = viewModel.RestaurantId });
+            }
+
+            return View(viewModel);
         }
 
         // GET: Restaurants/Create

@@ -1,0 +1,29 @@
+﻿@model FoodDelivery.Domain.DTO.RestaurantRatingDTO
+
+<div class="container">
+    <form method="post" asp-action="Rate">
+
+        <input type="hidden" asp-for="RestaurantId" value="@Model.RestaurantId" class="form-control" />
+
+        <div class="row mt-4">
+            <div class="form-group">
+                <label asp-for="RestaurantName" class="control-label"></label>
+                <input asp-for="RestaurantName" class="form-control" />
+                <span asp-validation-for="RestaurantName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="form-group">
+                <label asp-for="Value" class="control-label"></label>
+                <input asp-for="Value" type="number" class="form-control" />
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <button type="submit" class="btn btn-success">Rate</button>
+        </div>
+    </form>
+
+</div>
