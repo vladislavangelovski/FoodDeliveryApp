@@ -44,7 +44,7 @@ namespace FoodDelivery.Web.Controllers
         }
 
         // GET: Restaurants/Details/5
-        public IActionResult Details(Guid? id)
+        public IActionResult Details(Guid? id, string category = null)
         {
             if (id == null)
             {
@@ -60,7 +60,10 @@ namespace FoodDelivery.Web.Controllers
             var showFoodItemsInRestaurantDTO = new ShowFoodItemsInRestaurantDTO()
             {
                 Restaurant = restaurant,
-                FoodItemsInRestaurant = _foodItemService.ShowFoodItemsInRestaurant((Guid)id)
+                FoodItemsInRestaurant = _foodItemService.ShowFoodItemsInRestaurant((Guid)id),
+                FilteredFoodItems = _foodItemService.FilteredFoodItemsInRestaurantByCategory(category, (Guid)id),
+                CurrentCategory = category,
+                Categories = _foodItemService.CategoriesFromFoodItemsInRestaurant((Guid)id)
             };
 
 

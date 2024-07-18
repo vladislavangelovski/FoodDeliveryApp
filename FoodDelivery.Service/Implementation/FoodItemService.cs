@@ -38,6 +38,11 @@ namespace FoodDelivery.Service.Implementation
             _foodItemRepository.Insert(newFoodItem);
         }
 
+        public List<string> CategoriesFromFoodItemsInRestaurant(Guid restaurantId)
+        {
+            return _foodItemRepository.GetAll().Where(z => z.RestaurantId == restaurantId).Select(f => f.Category).Distinct().ToList();
+        }
+
         public FoodItem CreateNewFoodItem(FoodItem foodItem)
         {
             return _foodItemRepository.Insert(foodItem);
@@ -47,6 +52,19 @@ namespace FoodDelivery.Service.Implementation
         {
             var foodItem_to_delete = this.GetFoodItemById(id);
             return _foodItemRepository.Delete(foodItem_to_delete);
+        }
+
+        public List<FoodItem> FilteredFoodItemsInRestaurantByCategory(string category, Guid restaurantId)
+        {
+            if (string.IsNullOrEmpty(category))
+            {
+                return new List<FoodItem>();
+            }
+            else
+            {
+                return _foodItemRepository.GetAll().Where(z => z.RestaurantId == restaurantId && z.Category == category).ToList();
+            }
+
         }
 
         public FoodItem GetFoodItemById(Guid? id)

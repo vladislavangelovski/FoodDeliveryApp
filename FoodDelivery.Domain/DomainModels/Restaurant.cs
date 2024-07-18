@@ -19,7 +19,8 @@ namespace FoodDelivery.Domain.DomainModels
         public string? Description { get; set; }
         [Required]
         public string? Image { get; set; }
-        
+
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         public double Rating { get; set; }
 
         public virtual ICollection<FoodItem>? FoodItems { get; set; } = new List<FoodItem>();

@@ -12,5 +12,9 @@ namespace FoodDelivery.Domain.DTO
         public Restaurant Restaurant{ get; set; }
         public List<FoodItem> FoodItemsInRestaurant{ get; set; }
         public AddFoodItemToRestaurantDTO NewFoodItem { get; set; } = new AddFoodItemToRestaurantDTO();
+
+        public List<FoodItem> FilteredFoodItems { get; set; }
+        public string CurrentCategory { get; set; }
+        public List<string> Categories { get; set; }
     }
 }
