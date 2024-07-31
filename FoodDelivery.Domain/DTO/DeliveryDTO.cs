@@ -11,5 +11,6 @@ namespace FoodDelivery.Domain.DTO
     {
         public List<FoodItemInDelivery>? AllFoodItems {  get; set; }
         public double TotalPrice { get; set; }
+        public List<Restaurant>? RestaurantsOrderedFrom { get; set; }
     }
 }

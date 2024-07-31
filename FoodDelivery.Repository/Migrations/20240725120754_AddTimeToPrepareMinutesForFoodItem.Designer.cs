@@ -4,6 +4,7 @@ using FoodDelivery.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDelivery.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240725120754_AddTimeToPrepareMinutesForFoodItem")]
+    partial class AddTimeToPrepareMinutesForFoodItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,16 +101,11 @@ namespace FoodDelivery.Repository.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("RestaurantId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DeliveryOrderId");
 
                     b.HasIndex("FoodItemId");
-
-                    b.HasIndex("RestaurantId");
 
                     b.ToTable("FoodItemInDeliveries");
                 });
@@ -455,15 +453,9 @@ namespace FoodDelivery.Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FoodDelivery.Domain.DomainModels.Restaurant", "Restaurant")
-                        .WithMany()
-                        .HasForeignKey("RestaurantId");
-
                     b.Navigation("DeliveryOrder");
 
                     b.Navigation("FoodItem");
-
-                    b.Navigation("Restaurant");
                 });
 
             modelBuilder.Entity("FoodDelivery.Domain.DomainModels.FoodItemInOrder", b =>

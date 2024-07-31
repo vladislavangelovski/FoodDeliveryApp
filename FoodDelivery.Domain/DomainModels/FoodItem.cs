@@ -20,6 +20,7 @@ namespace FoodDelivery.Domain.DomainModels
         [Required]
         public string? Category { get; set; }
         public Guid RestaurantId { get; set; }
+        public int TimeToPrepareMinutes { get; set; }
         public virtual Restaurant? Restaurant { get; set; }
         public virtual ICollection<FoodItemInDelivery>? FoodItemInDeliveries { get; set; }
         public ICollection<FoodItemInOrder>? FoodItemInOrders { get; set; }

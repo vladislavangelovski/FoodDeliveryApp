@@ -13,5 +13,7 @@ namespace FoodDelivery.Domain.DomainModels
         public Guid DeliveryOrderId { get; set; }
         public DeliveryOrder? DeliveryOrder { get; set; }
         public int Quantity { get; set; }
+        public Guid? RestaurantId { get; set; }
+        public virtual Restaurant? Restaurant { get; set; }
     }
 }

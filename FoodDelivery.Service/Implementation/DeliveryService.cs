@@ -5,6 +5,7 @@ using FoodDelivery.Service.Interface;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
@@ -20,14 +21,16 @@ namespace FoodDelivery.Service.Implementation
         private readonly IRepository<FoodItem> _foodItemRepository;
         private readonly IRepository<Order> _orderRepository;
         private readonly IRepository<FoodItemInOrder> _foodItemInOrderRepository;
+        private readonly IRepository<Restaurant> _restaurantRepository;
 
-        public DeliveryService(ICustomerRepository customerRepository, IRepository<DeliveryOrder> deliveryOrderRepository, IRepository<FoodItem> foodItemRepository, IRepository<Order> orderRepository, IRepository<FoodItemInOrder> foodItemInOrderRepository)
+        public DeliveryService(ICustomerRepository customerRepository, IRepository<DeliveryOrder> deliveryOrderRepository, IRepository<FoodItem> foodItemRepository, IRepository<Order> orderRepository, IRepository<FoodItemInOrder> foodItemInOrderRepository, IRepository<Restaurant> restaurantRepository)
         {
             _customerRepository = customerRepository;
             _deliveryOrderRepository = deliveryOrderRepository;
             _foodItemRepository = foodItemRepository;
             _orderRepository = orderRepository;
             _foodItemInOrderRepository = foodItemInOrderRepository;
+            _restaurantRepository = restaurantRepository;
         }
 
         public DeliveryOrder AddFoodItemToDelivery(string customerId, AddToDeliveryDTO model)
@@ -39,6 +42,7 @@ namespace FoodDelivery.Service.Implementation
                 var customerDelivery = loggedInCustomer?.DeliveryOrder;
 
                 var selectedFoodItem = _foodItemRepository.Get(model.SelectedFoodItemId);
+                var RestaurantOrderedFromId = selectedFoodItem.RestaurantId;
 
                 if (selectedFoodItem != null && customerDelivery != null)
                 {
@@ -48,7 +52,8 @@ namespace FoodDelivery.Service.Implementation
                         FoodItemId = selectedFoodItem.Id,
                         DeliveryOrder = customerDelivery,
                         DeliveryOrderId = customerDelivery.Id,
-                        Quantity = model.Quantity
+                        Quantity = model.Quantity,
+                        Restaurant = _restaurantRepository.Get(RestaurantOrderedFromId)
                     });
 
                     return _deliveryOrderRepository.Update(customerDelivery);
@@ -84,22 +89,30 @@ namespace FoodDelivery.Service.Implementation
                 var loggedInCustomer = _customerRepository.Get(customerId);
                 var allFoodItems = loggedInCustomer?.DeliveryOrder?.FoodItemInDeliveries?.ToList();
                 var totalPrice = 0.0;
+                var restaurantsOrderedFrom = new List<Restaurant>();
 
                 foreach(var item in allFoodItems)
                 {
                     totalPrice += Double.Round((item.Quantity * item.FoodItem.Price), 2);
+                    //restaurantsOrderedFrom.Add(_restaurantRepository.Get(item.RestaurantId));
+                    if (!restaurantsOrderedFrom.Contains(item.Restaurant))
+                    {
+                        restaurantsOrderedFrom.Add(_restaurantRepository.Get(item.RestaurantId));
+                    }
                 }
                 var model = new DeliveryDTO
                 {
                     AllFoodItems = allFoodItems,
-                    TotalPrice = totalPrice
+                    TotalPrice = totalPrice,
+                    RestaurantsOrderedFrom = restaurantsOrderedFrom
                 };
                 return model;
             }
             return new DeliveryDTO
             {
                 AllFoodItems = new List<FoodItemInDelivery>(),
-                TotalPrice = 0.0
+                TotalPrice = 0.0,
+                RestaurantsOrderedFrom = null
             };
         }
 
@@ -126,6 +139,7 @@ namespace FoodDelivery.Service.Implementation
                 var loggedInCustomer = _customerRepository.Get(customerId);
 
                 var customerDelivery = loggedInCustomer?.DeliveryOrder;
+                int TimeToPrepareMultipleFoodItems = 0;
 
                 Order customerOrder = new Order
                 {
@@ -146,14 +160,6 @@ namespace FoodDelivery.Service.Implementation
                     OrderedFoodItem = z.FoodItem,
                     Quantity = z.Quantity
                 }).ToList();
-
-                var totalPrice = 0.0;
-
-                for (int i = 1; i <= itemList.Count(); i++)
-                {
-                    var item = itemList[i - 1];
-                    totalPrice += item.Quantity * item.OrderedFoodItem.Price;
-                }
 
                 itemInOrder.AddRange(itemList);
 

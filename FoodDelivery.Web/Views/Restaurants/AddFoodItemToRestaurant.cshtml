@@ -31,6 +31,11 @@
                 <input asp-for="Category" class="form-control" />
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="TimeToPrepareMinutes" class="control-label"></label>
+                <input asp-for="TimeToPrepareMinutes" class="form-control" />
+                <span asp-validation-for="TimeToPrepareMinutes" class="text-danger"></span>
+            </div>
             <input type="hidden" asp-for="RestaurantId" />
             <div class="form-group">
                 <input type="submit" value="Add Food Item to Menu" class="btn btn-primary" />

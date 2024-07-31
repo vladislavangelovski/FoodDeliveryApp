@@ -14,6 +14,7 @@ namespace FoodDelivery.Domain.DTO
         public string? Description { get; set; }
         public string? ImageUrl { get; set; }
         public string? Category { get; set; }
+        public int TimeToPrepareMinutes { get; set; }
         public Guid RestaurantId { get; set; }
     }
 }

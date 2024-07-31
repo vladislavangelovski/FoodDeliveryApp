@@ -33,7 +33,8 @@ namespace FoodDelivery.Service.Implementation
                 Image = addFoodItemToRestaurantDTO.ImageUrl,
                 Category = addFoodItemToRestaurantDTO.Category,
                 Restaurant = restaurant,
-                RestaurantId = addFoodItemToRestaurantDTO.RestaurantId
+                RestaurantId = addFoodItemToRestaurantDTO.RestaurantId,
+                TimeToPrepareMinutes = addFoodItemToRestaurantDTO.TimeToPrepareMinutes
             };
             _foodItemRepository.Insert(newFoodItem);
         }
