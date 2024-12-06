@@ -98,7 +98,7 @@ namespace FoodDelivery.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, [Bind("Name,Price,Description,Image,Category,Id,RestaurantId")] FoodItem foodItem)
+        public IActionResult Edit(Guid id, [Bind("Name,Price,Description,Image,Category,Id,TimeToPrepareMinutes,RestaurantId")] FoodItem foodItem)
         {
             if (id != foodItem.Id)
             {
