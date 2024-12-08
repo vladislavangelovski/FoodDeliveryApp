@@ -1,0 +1,13 @@
+﻿@HostAddress = http://localhost:5070
+
+GET {{HostAddress}}/api/admin/GetAllRestaurants
+
+###
+
+GET http://localhost:5070/api/admin/GetAllRestaurants
+
+###
+
+GET {{HostAddress}}/api/admin/GetAllRestaurants
+
+###
