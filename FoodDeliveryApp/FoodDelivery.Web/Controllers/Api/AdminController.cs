@@ -10,6 +10,7 @@ namespace FoodDelivery.Web.Controllers.Api
     public class AdminController : ControllerBase
     {
         private readonly IRestaurantService _restaurantService;
+        private readonly 
 
         public AdminController(IRestaurantService restaurantService)
         {
@@ -20,5 +21,15 @@ namespace FoodDelivery.Web.Controllers.Api
         public List<Restaurant> GetAllRestaurants() { 
             return _restaurantService.GetRestaurants();
         }
+        //[HttpGet("[action]")]
+        //public List<Order> GetAllOrders()
+        //{
+        //    return this._orderService.GetAllOrders();
+        //}
+        //[HttpPost("[action]")]
+        //public Order GetDetails(BaseEntity id)
+        //{
+        //    return this._orderService.GetDetailsForOrder(id);
+        //}
     }
 }
