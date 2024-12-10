@@ -9,7 +9,7 @@ namespace FoodDeliveryAdminApp.Controllers
         {
             HttpClient client = new HttpClient();
 
-            string url = "http://localhost:5070/api/Admin/GetAllRestaurants";
+            string url = "http://localhost:7231/api/Admin/GetAllRestaurants";
 
             HttpResponseMessage response = client.GetAsync(url).Result;
 
