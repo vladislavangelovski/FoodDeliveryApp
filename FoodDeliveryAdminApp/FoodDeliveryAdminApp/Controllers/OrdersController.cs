@@ -15,18 +15,17 @@ namespace FoodDeliveryAdminApp.Controllers
         public IActionResult Index()
         {
             HttpClient client = new HttpClient();
-            string URL = "https://localhost:7231/api/Admin/GetAllOrders";
+            string URL = "http://localhost:5070/api/Admin/GetAllOrders";
 
             HttpResponseMessage response = client.GetAsync(URL).Result;
             var data = response.Content.ReadAsAsync<List<Order>>().Result;
             return View(data);
         }
 
-        public IActionResult Details(string id)
+        public IActionResult Details(Guid id)
         {
             HttpClient client = new HttpClient();
-            //added in next aud
-            string URL = "https://localhost:7231/api/Admin/GetDetails";
+            string URL = "http://localhost:5070/api/Admin/GetOrderDetails";
             var model = new
             {
                 Id = id
@@ -36,10 +35,10 @@ namespace FoodDeliveryAdminApp.Controllers
 
             HttpResponseMessage response = client.PostAsync(URL, content).Result;
 
-            var result = response.Content.ReadAsAsync<Order>().Result;
+            var data = response.Content.ReadAsAsync<Order>().Result;
 
 
-            return View(result);
+            return View(data);
 
         }
 

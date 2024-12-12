@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using FoodDelivery.Domain.DomainModels;
 
-namespace FoodDelivery.Service.Interface
+namespace FoodDelivery.Repository.Interface
 {
-    public interface IOrderService
+    public interface IOrderRepository
     {
-        public List<Order> GetAllOrders();
-        public Order GetOrderDetails(BaseEntity id);
+        List<Order> GetAllOrders();
+        Order GetOrderDetails(BaseEntity id);
     }
 }

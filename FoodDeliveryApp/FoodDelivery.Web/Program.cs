@@ -21,10 +21,16 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(ICustomerRepository), typeof(CustomerRepository));
+builder.Services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
 
 builder.Services.AddTransient<IRestaurantService, RestaurantService>();
 builder.Services.AddTransient<IFoodItemService, FoodItemService>();
 builder.Services.AddTransient<IDeliveryService, DeliveryService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
+
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
 
 
 var app = builder.Build();
