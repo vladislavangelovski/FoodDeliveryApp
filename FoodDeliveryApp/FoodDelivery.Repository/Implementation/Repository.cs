@@ -29,7 +29,6 @@ namespace FoodDelivery.Repository.Implementation
         public T Get(Guid? id)
         {
             return entities.First(s => s.Id == id);
-
         }
         public T Insert(T entity)
         {

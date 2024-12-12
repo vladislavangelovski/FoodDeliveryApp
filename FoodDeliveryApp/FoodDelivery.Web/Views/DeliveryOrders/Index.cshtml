@@ -119,7 +119,7 @@
                                         @Html.DisplayFor(modelItem => item.Quantity)
                                 </td>
                                 <td>
-                                        @Html.DisplayFor(modelItem => item.FoodItem.Price)
+                                        @Html.DisplayFor(modelItem => item.FoodItem.Price)$
                                 </td>
                                 <td>
                                     <a class="btn btn-danger" asp-action="DeleteFoodItemFromDelivery" asp-route-foodItemId="@item.FoodItem.Id">
@@ -131,9 +131,22 @@
                             </tr>
                             }
                         </tbody>
+                        
                         <tfoot>
-                                @if (Model.AllFoodItems.Count() != 0)
-                                {
+                                    @if (Model?.AllFoodItems?.Count() != 0)
+                                    {
+                                <tr>
+                                    <th>Time To Deliver:</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>@(MaxTimeToPrepare+15) minutes</th>
+                                    <th></th>
+                                </tr>
+                                    }
+                        </tfoot>
+                        <tfoot>
+                                    @if (Model.AllFoodItems.Count() != 0)
+                                    {
                                 <tr>
                                     <th>Time To Prepare:</th>
                                     <th></th>
@@ -141,7 +154,7 @@
                                     <th>@MaxTimeToPrepare minutes</th>
                                     <th></th>
                                 </tr>
-                                }
+                                    }
                         </tfoot>
                     </table>
                 }
@@ -152,10 +165,10 @@
         @if(Model.RestaurantsOrderedFrom?.Count() != 0)
         {
             <tr>
-                <th>Total Price:</th>
+                <th><h6>Total Price:</h6></th>
                 <th></th>
                 <th></th>
-                <th>@Model.TotalPrice</th>
+                <th><h5>@Model.TotalPrice$</h5></th>
                 <th></th>
             </tr>
         }

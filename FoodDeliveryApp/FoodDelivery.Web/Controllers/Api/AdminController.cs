@@ -23,6 +23,14 @@ namespace FoodDelivery.Web.Controllers.Api
         public List<Restaurant> GetAllRestaurants() { 
             return _restaurantService.GetRestaurants();
         }
+        [HttpPost("[action]")]
+        public Restaurant GetRestaurantDetails(BaseEntity id)
+        {
+            return this._restaurantService.GetRestaurantDetails(id);
+        }
+
+
+
         [HttpGet("[action]")]
         public List<Order> GetAllOrders()
         {

@@ -1,6 +1,7 @@
 ﻿using FoodDelivery.Domain.DomainModels;
 using FoodDelivery.Domain.DTO;
 using FoodDelivery.Domain.Identity;
+using FoodDelivery.Repository.Implementation;
 using FoodDelivery.Repository.Interface;
 using FoodDelivery.Service.Interface;
 using Microsoft.AspNetCore.Identity;
@@ -18,12 +19,15 @@ namespace FoodDelivery.Service.Implementation
         private readonly IRepository<Restaurant> _restaurantRepository;
         private readonly IRepository<Rating> _ratingRepository;
         private readonly ICustomerRepository _customerRepository;
+        private readonly IRestaurantRepository _restRepository;
 
-        public RestaurantService(IRepository<Restaurant> restaurantRepository, IRepository<Rating> ratingRepository, ICustomerRepository customerRepository)
+        public RestaurantService(IRepository<Restaurant> restaurantRepository, 
+            IRepository<Rating> ratingRepository, ICustomerRepository customerRepository, IRestaurantRepository restRepository)
         {
             _restaurantRepository = restaurantRepository;
             _ratingRepository = ratingRepository;
             _customerRepository = customerRepository;
+            _restRepository = restRepository;
         }
 
         public Restaurant CreateNewRestaurant(Restaurant restaurant)
@@ -100,6 +104,12 @@ namespace FoodDelivery.Service.Implementation
                 return 0;
             }
 
+        }
+
+
+        public Restaurant GetRestaurantDetails(BaseEntity id)
+        {
+            return _restRepository.GetRestaurantDetails(id);
         }
     }
 }

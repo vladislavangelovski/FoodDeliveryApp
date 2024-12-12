@@ -16,5 +16,6 @@ namespace FoodDelivery.Service.Interface
         public Restaurant UpdateRestaurant(Restaurant restaurant);
         public Restaurant DeleteRestaurant(Guid id);
         public void RateRestaurant(string customerId, RestaurantRatingDTO viewModel);
+        public Restaurant GetRestaurantDetails(BaseEntity id);
     }
 }
