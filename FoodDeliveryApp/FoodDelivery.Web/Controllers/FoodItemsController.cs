@@ -179,13 +179,18 @@ namespace FoodDelivery.Web.Controllers
         [HttpPost]
         public IActionResult AddFoodItemToDelivery(AddToDeliveryDTO model)
         {
+            var restaurantID = _foodItemService.GetFoodItemById(model.SelectedFoodItemId).RestaurantId;
+
             var customerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var result = _deliveryService.AddFoodItemToDelivery(customerId, model);
 
+            var refererURL = Request.Headers["Referer"].ToString();
+
             if (result != null)
             {
-                return RedirectToAction("Index", "DeliveryOrders");
+                //return RedirectToAction("Index", "DeliveryOrders");
+                return RedirectToAction("Details", "Restaurants", new {id = restaurantID});
             }
             else { return View(model); }
         }
