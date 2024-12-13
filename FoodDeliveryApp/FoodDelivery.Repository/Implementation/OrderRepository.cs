@@ -35,6 +35,7 @@ namespace FoodDelivery.Repository.Implementation
                 .Include(z => z.FoodItemInOrders)
                 .Include(z => z.Owner)
                 .Include("FoodItemInOrders.OrderedFoodItem")
+                .Include("FoodItemInOrders.OrderedFoodItem.Restaurant")
                 .SingleOrDefaultAsync(z => z.Id == id.Id).Result;
         }
     }

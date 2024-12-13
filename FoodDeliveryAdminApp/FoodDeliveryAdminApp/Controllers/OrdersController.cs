@@ -97,10 +97,12 @@ namespace FoodDeliveryAdminApp.Controllers
             {
                 IXLWorksheet worksheet = workbook.Worksheets.Add("Orders");
                 worksheet.Cell(1, 1).Value = "OrderID";
-                worksheet.Cell(1, 2).Value = "Customer UserName";
+                worksheet.Cell(1, 2).Value = "Customer Name";
                 worksheet.Cell(1, 3).Value = "Total Price";
+                worksheet.Cell(1, 4).Value = "Delivery Time";
+
                 HttpClient client = new HttpClient();
-                string URL = "https://localhost:7231/api/Admin/GetAllOrders";
+                string URL = "http://localhost:5070/api/Admin/GetAllOrders";
 
                 HttpResponseMessage response = client.GetAsync(URL).Result;
                 var data = response.Content.ReadAsAsync<List<Order>>().Result;
@@ -109,15 +111,19 @@ namespace FoodDeliveryAdminApp.Controllers
                 {
                     var item = data[i];
                     worksheet.Cell(i + 2, 1).Value = item.Id.ToString();
-                    worksheet.Cell(i + 2, 2).Value = item.Owner.UserName;
+                    worksheet.Cell(i + 2, 2).Value = item.Owner.FirstName+item.Owner.LastName;
                     var total = 0;
-                    for (int j = 0; j < item.FoodItemInOrders.Count(); j++)
+                    var maxtime = 0;
+                    for (int j = 0; j < item.FoodItemInOrders?.Count(); j++)
                     {
-                        worksheet.Cell(1, 4 + j).Value = "Product - " + (j + 1);
-                        worksheet.Cell(i + 2, 4 + j).Value = item.FoodItemInOrders.ElementAt(j).OrderedFoodItem.Name;
+                        worksheet.Cell(1, 5 + j).Value = "Fooditem - " + (j + 1);
+                        worksheet.Cell(i + 2, 5 + j).Value = item.FoodItemInOrders.ElementAt(j).OrderedFoodItem.Name;
                         total += (int)(item.FoodItemInOrders.ElementAt(j).Quantity * item.FoodItemInOrders.ElementAt(j).OrderedFoodItem.Price);
+                        if (item.FoodItemInOrders.ElementAt(j).OrderedFoodItem.TimeToPrepareMinutes > maxtime)
+                            maxtime = item.FoodItemInOrders.ElementAt(j).OrderedFoodItem.TimeToPrepareMinutes;
                     }
                     worksheet.Cell(i + 2, 3).Value = total;
+                    worksheet.Cell(i + 2, 4).Value = maxtime+15;
                 }
                 using (var stream = new MemoryStream())
                 {
