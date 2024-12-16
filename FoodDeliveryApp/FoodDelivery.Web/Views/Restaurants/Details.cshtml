@@ -4,98 +4,79 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<style>
+    /* Hero Section */
+    .hero-section {
+        background-image: url('/images/restaurants-hero.jpg'); /* Replace with actual image path */
+        background-size: cover;
+        background-position: center;
+        height: 40vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        text-align: center;
+        position: relative;
+    }
 
-<div>
-    <h4>Restaurant</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Restaurant.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Restaurant.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Restaurant.Address)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Restaurant.Address)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Restaurant.PhoneNumber)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Restaurant.PhoneNumber)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Restaurant.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Restaurant.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Restaurant.Image)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Restaurant.Image)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Restaurant.Rating)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Restaurant.Rating)/5
-        </dd>
-    </dl>
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
 
-    <div>
-        <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model?.Restaurant.Id">Edit</a>
-        <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Card Style */
+    .card img {
+        object-fit: cover;
+        height: 200px;
+    }
+
+    .card-footer .btn {
+        border-radius: 8px;
+    }
+</style>
+
+<!-- Hero Section -->
+<div class="hero-section mb-5">
+    <div class="hero-content">
+        <h1 class="display-4 fw-bold">@Model.Restaurant.Name</h1>
+        <p class="lead">Address: @Model.Restaurant.Address</p>
+        <p class="lead">Phone: @Model.Restaurant.PhoneNumber</p>
+        <p class="lead">Description: @Model.Restaurant.Description</p>
     </div>
-    <br />
+</div>
 
-    <div class="bg-success text-center text-light p-2 mb-2">
-        <h1> Menu </h1>
+<!-- Add Food Item Button -->
+<div class="container mb-4">
+    <a asp-action="AddFoodItemToRestaurant" asp-route-id="@Model?.Restaurant.Id" class="btn btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+        </svg>Add FoodItem To Restaurant
+    </a>
+</div>
+
+<h3>Filter by Category</h3>
+<form method="get" asp-action="Details" asp-route-id="@Model?.Restaurant.Id" class="m-3">
+    <div class="form-group">
+        <select name="category" asp-for="CurrentCategory" asp-items="@(new SelectList(Model?.Categories, Model?.CurrentCategory))" class="form-control">
+            <option value="">All</option>
+        </select>
     </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
 
-    <div class="container-fluid">
-
-        @* Add food item to restaurant *@
-        <a asp-action="AddFoodItemToRestaurant" asp-route-id="@Model?.Restaurant.Id" class="btn btn-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-            </svg>Add FoodItem To Restaurant
-        </a>
-
-        @* <h3>Categories</h3>
-        <ul>
-            @foreach (var category in Model.Categories)
-            {
-                <li>
-                    <a asp-action="Details" asp-route-id="@Model.Restaurant.Id" asp-route-category="@category">@category</a>
-                </li>
-            }
-            <li>
-                <a asp-action="Details" asp-route-id="@Model.Restaurant.Id">All</a>
-            </li>
-        </ul> *@
-
-        @* filter food items by category *@
-
-
-        <h3>Filter by Category</h3>
-        <form method="get" asp-action="Details" asp-route-id="@Model?.Restaurant.Id" class="m-3">
-            <div class="form-group">
-                <select name="category" asp-for="CurrentCategory" asp-items="@(new SelectList(Model?.Categories, Model?.CurrentCategory))" class="form-control">
-                    <option value="">All</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Filter</button>
-        </form>
-        
-        
-
-        @if(Model?.CurrentCategory != null)
+<!-- Categories and Food Items -->
+<div class="container">
+    @if(Model?.CurrentCategory != null)
         {
             <div class="bg-primary text-uppercase text-light p-1">
                 <h3> @Model.CurrentCategory </h3>
@@ -110,41 +91,37 @@
                    @: <div class="row mt-3" style="justify-content:center;">
                 }
 
-                <div class="col-md-3 m-3 p-3">
+                      <div class="col-md-4 d-flex align-items-stretch mb-4">
 
-                    <div class="card" style="width: 23rem; height:100%">
-                      <img class="card-img-top" src="@item.Image" style="width:100%; height:100%;" alt="Card image cap">
-                      <div class="card-body">
-                        <h5 class="card-title">@item.Name</h5>
-                        <p class="card-text">@item.Description</p>
-                        <h6 class="card-text">$@item.Price</h6>
-                        <p class="card-text">Time to prepare: @item.TimeToPrepareMinutes minutes</p>
+                        <div class="card shadow-sm w-100">
+                          <img class="card-img-top" src="@item.Image" alt="Food Image" style="object-fit: cover; height: 200px;">
+                          <div class="card-body d-flex flex-column">
+                          <h5 class="card-title fw-bold">@item.Name</h5>
+                          <p class="card-text mb-2">@item.Description</p>
+                          <h6 class="text-success fw-bold">$@item.Price</h6>
+                          <p class="text-muted mb-3">Time to prepare: @item.TimeToPrepareMinutes minutes</p>
+                          </div>
+                          <div class="card-footer d-flex justify-content-between">
+                              <a href="/FoodItems/Edit/@item.Id" class="btn btn-info" style="float:right; margin-left: 10px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+                                </svg>
+                            </a>
+                            <a href="/FoodItems/Delete/@item.Id" class="btn btn-danger" style="float:right; margin-left: 10px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                </svg>
+                            </a>
+
+                             <a href="/FoodItems/AddFoodItemToDelivery/@item.Id" class="btn btn-warning" style="float:right; margin-left: 10px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-check" viewBox="0 0 16 16">
+                                    <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+                                    <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                                </svg>
+                            </a>
+                          </div>
+                        </div>
                       </div>
-              
-                      <div class="card-footer">
-                        <a href="/FoodItems/Edit/@item.Id" class="btn btn-info" style="float:right; margin-left: 10px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
-                            </svg>
-                        </a>
-                        <a href="/FoodItems/Delete/@item.Id" class="btn btn-danger" style="float:right; margin-left: 10px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
-                            </svg>
-                        </a>
-
-                         <a href="/FoodItems/AddFoodItemToDelivery/@item.Id" class="btn btn-warning" style="float:right; margin-left: 10px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-check" viewBox="0 0 16 16">
-                                <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
-                                <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
-                            </svg>
-                        </a>
-                      </div>
-                    </div>
-
-                </div>
-
-
 
                 if(i % 3 == 2)
                 {
@@ -175,19 +152,18 @@
                        @: <div class="row mt-3" style="justify-content:center;">
                     }
 
-                    <div class="col-md-3 m-3 p-3">
+                    <div class="col-md-4 d-flex align-items-stretch mb-4">
 
-                        <div class="card" style="width: 23rem; height:100%">
-                          <img class="card-img-top" src="@item.Image" style="width:100%; height:100%;" alt="Card image cap">
-                          <div class="card-body">
-                            <h5 class="card-title">@item.Name</h5>
-                            <p class="card-text">@item.Description</p>
-                            <h6 class="card-text">$@item.Price</h6>
-                            <p class="card-text">Time to prepare: @item.TimeToPrepareMinutes minutes</p>
+                        <div class="card shadow-sm w-100">
+                          <img class="card-img-top" src="@item.Image" alt="Food Image" style="object-fit: cover; height: 200px;">
+                          <div class="card-body d-flex flex-column">
+                          <h5 class="card-title fw-bold">@item.Name</h5>
+                          <p class="card-text mb-2">@item.Description</p>
+                          <h6 class="text-success fw-bold">$@item.Price</h6>
+                          <p class="text-muted mb-3">Time to prepare: @item.TimeToPrepareMinutes minutes</p>
                           </div>
-              
-                          <div class="card-footer">
-                            <a href="/FoodItems/Edit/@item.Id" class="btn btn-info" style="float:right; margin-left: 10px;">
+                          <div class="card-footer d-flex justify-content-between">
+                              <a href="/FoodItems/Edit/@item.Id" class="btn btn-info" style="float:right; margin-left: 10px;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                                     <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
                                 </svg>
@@ -206,8 +182,7 @@
                             </a>
                           </div>
                         </div>
-
-                    </div>
+                      </div>
 
 
 
@@ -219,7 +194,4 @@
                 }
             }
         }
-
-    </div>
 </div>
-

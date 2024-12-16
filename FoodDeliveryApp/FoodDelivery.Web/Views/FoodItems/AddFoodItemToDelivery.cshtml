@@ -1,29 +1,48 @@
 ﻿@model FoodDelivery.Domain.DTO.AddToDeliveryDTO
 
-<div class="container">
-    <form method="post" asp-action="AddFoodItemToDelivery">
+@{
+    ViewData["Title"] = "Add to Delivery";
+}
 
-        <input type="hidden" asp-for="SelectedFoodItemId" value="@Model.SelectedFoodItemId" class="form-control" />
+<!-- Hero Section -->
+<div class="hero-section d-flex align-items-center justify-content-center text-white text-center" style="height: 20vh;">
+    <div>
+        <h1 class="display-5 fw-bold">Add Item to Delivery</h1>
+        <p class="lead">Specify the quantity and confirm your selection below.</p>
+    </div>
+</div>
 
-        <div class="row mt-4">
-            <div class="form-group">
-                <label asp-for="SelectedFoodItemName" class="control-label"></label>
-                <input asp-for="SelectedFoodItemName" class="form-control" />
+<!-- Form Container -->
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh; margin-top: -5vh;">
+    <div class="card shadow-lg p-4 rounded" style="width: 100%; max-width: 500px; background: rgba(255, 255, 255, 0.95);">
+        <form method="post" asp-action="AddFoodItemToDelivery">
+            <input type="hidden" asp-for="SelectedFoodItemId" value="@Model.SelectedFoodItemId" />
+
+            <!-- Food Item Name -->
+            <div class="form-group mb-4">
+                <label asp-for="SelectedFoodItemName" class="form-label fw-bold">Food Item</label>
+                <input asp-for="SelectedFoodItemName" class="form-control" readonly placeholder="Food item name" />
                 <span asp-validation-for="SelectedFoodItemName" class="text-danger"></span>
             </div>
-        </div>
 
-        <div class="row mt-4">
-            <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" type="number" class="form-control" />
+            <!-- Quantity -->
+            <div class="form-group mb-4">
+                <label asp-for="Quantity" class="form-label fw-bold">Quantity</label>
+                <input asp-for="Quantity" type="number" class="form-control" min="1" placeholder="Enter quantity" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
-        </div>
 
-        <div class="row mt-4">
-            <button type="submit" class="btn btn-success">Add To Delivery</button>
-        </div>
-    </form>
-
+            <!-- Submit Button -->
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-success btn-lg">Add to Delivery</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

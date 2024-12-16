@@ -1,59 +1,82 @@
 ﻿@model IEnumerable<FoodDelivery.Domain.DomainModels.FoodItem>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Food Items";
 }
+<style>
+    .table-dark th,
+    .table-dark td {
+        color: white !important; /* Ensures white text in table headers and cells */
+        background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background */
+    }
 
-<h1>Index</h1>
+    .table img {
+        border: 2px solid white; /* White border around images for visibility */
+    }
 
-@* <p>
-    <a asp-action="Create">Create New</a>
-</p> *@
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Image)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    .table-hover tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.1); /* Light hover effect */
+    }
+</style>
+
+<!-- Hero Section -->
+<div class="hero-section d-flex align-items-center justify-content-center text-white text-center" style="height: 20vh;">
+    <div>
+        <h1 class="display-5 fw-bold">Food Items</h1>
+        <p class="lead">Manage and view all food items in your system.</p>
+    </div>
+</div>
+
+<!-- Table Container -->
+<div class="container mt-4">
+    <div class="d-flex justify-content-end mb-3">
+        <a asp-action="Create" class="btn btn-success btn-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+            </svg>
+            Create New
+        </a>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive">
+        <table class="table table-dark table-hover table-bordered shadow-lg">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price ($)</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-middle">@item.Name</td>
+                        <td class="align-middle">@item.Price</td>
+                        <td class="align-middle">@item.Description</td>
+                        <td class="align-middle text-center">
+                            @if (!string.IsNullOrEmpty(item.Image))
+                            {
+                                <img src="@item.Image" alt="Food Image" class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover;" />
+                            }
+                            else
+                            {
+                                <span>No Image</span>
+                            }
+                        </td>
+                        <td class="align-middle">@item.Category</td>
+                        <td class="align-middle text-center">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info btn-sm mx-1">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-sm mx-1">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm mx-1">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

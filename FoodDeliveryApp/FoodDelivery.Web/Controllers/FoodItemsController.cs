@@ -56,7 +56,7 @@ namespace FoodDelivery.Web.Controllers
             return View(foodItem);
         }
 
-        /*// GET: FoodItems/Create
+        // GET: FoodItems/Create
         public IActionResult Create()
         {
             return View();
@@ -67,7 +67,7 @@ namespace FoodDelivery.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create( [Bind("Name,Price,Description,Image,Category,Id")] FoodItem foodItem)
+        public IActionResult Create([Bind("Name,Price,Description,Image,Category,Id")] FoodItem foodItem)
         {
             if (ModelState.IsValid)
             {
@@ -75,7 +75,7 @@ namespace FoodDelivery.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(foodItem);
-        }*/
+        }
 
         // GET: FoodItems/Edit/5
         public IActionResult Edit(Guid? id)

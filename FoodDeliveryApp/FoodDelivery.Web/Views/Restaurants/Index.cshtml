@@ -1,43 +1,120 @@
 ﻿@model List<FoodDelivery.Domain.DomainModels.Restaurant>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Restaurants";
 }
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
 <style>
+    /* Hero Section Styling */
+    .restaurants-hero {
+        background-image: url('/images/restaurants-hero.jpg'); /* Replace with a suitable image */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 50vh;
+        position: relative;
+    }
+
+        .restaurants-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+            z-index: 1;
+        }
+
+        .restaurants-hero div {
+            position: relative;
+            z-index: 2;
+        }
+
+    /* Card Styling */
+    .card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+    .card-img-top {
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-footer {
+        background-color: #fff;
+        border-top: none;
+    }
+
+    /* Button Styling */
+    .btn svg {
+        margin-right: 5px;
+    }
+
+    /* Rating Stars */
     .checked {
         color: orange;
     }
 
     .unchecked {
-        color: gray;
+        color: lightgray;
+    }
+
+    /* Centered Create Button */
+    .create-btn {
+        margin: 20px 0;
+        text-align: center;
     }
 </style>
 
-<h1>Restaurants</h1>
+<!-- Hero Section -->
+<div class="restaurants-hero d-flex align-items-center justify-content-center text-white text-center">
+    <div>
+        <h1 class="display-4 fw-bold">Discover Your Favorite Restaurants</h1>
+        <p class="lead mt-3">Browse and manage the best dining spots effortlessly.</p>
+    </div>
+</div>
 
-<div class="container-fluid">
-    <a asp-action="Create" class="btn btn-success mb-4">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
-        </svg>
-        Create New Restaurant
+<!-- Create Button -->
+<div class="container create-btn">
+    <a asp-action="Create" class="btn btn-success btn-lg px-4">
+        <i class="bi bi-plus-lg"></i> Create New Restaurant
     </a>
+</div>
 
-    <div class="row justify-content-center">
+<!-- Restaurant Cards -->
+<div class="container">
+    <div class="row gy-4">
         @for (int i = 0; i < Model.Count(); i++)
         {
             var item = Model[i];
 
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card" style="height: 100%;">
-                    <img class="card-img-top" src="@item.Image" style="width:100%; height:200px; object-fit: cover;" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Name</h5>
-                        <h6 class="card-text">@item.Address</h6>
-                        <p class="card-text">@item.Description</p>
-                        <p class="card-text">@item.PhoneNumber</p>
-                        <div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card h-100">
+                    <!-- Card Image -->
+                    <img src="@item.Image" class="card-img-top" alt="@item.Name">
+
+                    <!-- Card Body -->
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold">@item.Name</h5>
+                        <p class="text-muted">@item.Address</p>
+                        <p>@item.Description</p>
+
+                        <!-- Rating -->
+                        <div class="mb-2">
                             @for (int j = 1; j <= 5; j++)
                             {
                                 if (j <= @item.Rating)
@@ -52,7 +129,8 @@
                         </div>
                     </div>
 
-                    <div class="card-footer d-flex justify-content-between">
+                    <!-- Card Footer with Buttons -->
+                    <div class="card-footer d-flex justify-content-between bg-white">
                         <a href="/Restaurants/Details/@item.Id" class="btn btn-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
                                 <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />

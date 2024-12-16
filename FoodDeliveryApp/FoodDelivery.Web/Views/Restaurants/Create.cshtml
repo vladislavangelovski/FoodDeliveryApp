@@ -4,50 +4,125 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<style>
+    /* Hero Section */
+    .hero-section {
+        background-size: cover;
+        background-position: center;
+        height: 40vh;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #fff;
+    }
 
-<h4>Restaurant</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Dark overlay */
+            z-index: 1;
+        }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Form Container */
+    .form-container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        max-width: 600px;
+        margin: -80px auto 50px; /* Pull it upwards slightly */
+        position: relative;
+        z-index: 2;
+    }
+
+        .form-container h4 {
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        box-shadow: none;
+    }
+
+    .btn-create {
+        background-color: #28a745;
+        border-radius: 8px;
+        padding: 8px 20px;
+        color: white;
+        font-weight: 600;
+    }
+
+    .btn-cancel {
+        background-color: #6c757d;
+        border-radius: 8px;
+        padding: 8px 20px;
+        color: white;
+        font-weight: 600;
+    }
+
+    .btn-create:hover {
+        background-color: #218838;
+    }
+
+    .btn-cancel:hover {
+        background-color: #5a6268;
+    }
+</style>
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="hero-content">
+        <h1 class="display-4">Create a New Restaurant</h1>
+        <p class="lead">Fill in the details to add your restaurant.</p>
+    </div>
+</div>
+
+<!-- Form Section -->
+<div class="container">
+    <div class="form-container">
+        <h4>Create Restaurant</h4>
+        <form asp-action="Create" method="post">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Restaurant Name</label>
+                <input asp-for="Name" class="form-control" placeholder="Enter restaurant name" required />
             </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
+            <div class="mb-3">
+                <label asp-for="Address" class="form-label">Address</label>
+                <input asp-for="Address" class="form-control" placeholder="Enter address" required />
             </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">Description</label>
+                <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter description"></textarea>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="mb-3">
+                <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Enter phone number" required />
             </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
+            <div class="mb-3">
+                <label asp-for="Image" class="form-label">Image URL</label>
+                <input asp-for="Image" class="form-control" placeholder="Enter image URL" required />
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-create">Create</button>
+                <a asp-action="Index" class="btn btn-cancel ms-2">Back to List</a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

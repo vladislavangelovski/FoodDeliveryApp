@@ -7,12 +7,116 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FoodDelivery.Web.styles.css" asp-append-version="true" />
+    <style>
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            height: 100%;
+        }
+        body {
+            background-image: url('/images/background.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .custom-header {
+            background-color: #000 !important;
+            color: #fff !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-header a.nav-link {
+            color: #ddd !important;
+            font-size: 1.1rem;
+        }
+
+        .custom-header a.nav-link:hover {
+            color: #fff !important;
+        }
+
+        .custom-footer {
+            background-color: #000 !important;
+            color: #ddd !important;
+            padding: 15px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .custom-footer a {
+            color: #ddd !important;
+            text-decoration: none;
+        }
+
+        .custom-footer a:hover {
+            color: #fff !important;
+        }
+
+        .container {
+            flex: 1;
+        }
+
+        footer {
+            margin-top: auto;
+        }
+        /* Hero Section */
+        .hero-section {
+            background-image: url('/image.png'); /* Use your uploaded background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 90vh; /* Full viewport height */
+            position: relative;
+        }
+
+            .hero-section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.6); /* Dark overlay for readability */
+                z-index: 1;
+            }
+
+            .hero-section div {
+                position: relative;
+                z-index: 2;
+            }
+
+        /* Typography */
+        .display-3 {
+            font-size: 3rem;
+        }
+
+        .lead {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .container h2 {
+            color: #333;
+        }
+
+        .btn-warning {
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark custom-header">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FoodDelivery.Web</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Delivery App</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -22,9 +126,9 @@
                         @* <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="FoodItems" asp-action="Index">Food Items</a>
                         </li> *@
-                        <li class="nav-item">
+                        @* <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Restaurants" asp-action="Index">Restaurants</a>
-                        </li>
+                        </li> *@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="DeliveryOrders" asp-action="Index">Delivery Cart</a>
                         </li>
@@ -40,9 +144,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="custom-footer">
         <div class="container">
-            &copy; 2024 - FoodDelivery.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - Delivery App - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

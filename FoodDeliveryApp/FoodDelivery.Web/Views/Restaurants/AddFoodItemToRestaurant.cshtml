@@ -1,44 +1,62 @@
 ﻿@model FoodDelivery.Domain.DTO.AddFoodItemToRestaurantDTO
 
-<h1>Add Food Item to Restaurant</h1>
+@{
+    ViewData["Title"] = "Add Food Item";
+}
 
-<div class="row">
-    <div class="col-md-4">
+<div class="hero-section d-flex align-items-center justify-content-center text-white text-center" style="height: 20vh;">
+    <div>
+        <h1 class="display-5 fw-bold">Add Food Item</h1>
+        <p class="lead">Fill in the details below to add a new food item to the restaurant's menu.</p>
+    </div>
+</div>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh; margin-top: -5vh;">
+    <div class="card shadow-lg p-4 rounded" style="width: 100%; max-width: 500px; background: rgba(255, 255, 255, 0.95);">
         <form asp-action="AddFoodItemToRestaurant" asp-route-id="@Model.RestaurantId">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="form-label fw-bold">Food Name</label>
+                <input asp-for="Name" class="form-control" placeholder="Enter food item name" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
+
+            <div class="form-group mb-3">
+                <label asp-for="Price" class="form-label fw-bold">Price</label>
+                <input asp-for="Price" type="number" min="0" step="0.01" class="form-control" placeholder="Enter price" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="form-label fw-bold">Description</label>
+                <textarea asp-for="Description" class="form-control" rows="2" placeholder="Enter description"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
+
+            <div class="form-group mb-3">
+                <label asp-for="ImageUrl" class="form-label fw-bold">Image URL</label>
+                <input asp-for="ImageUrl" class="form-control" placeholder="Enter image URL" />
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" />
+
+            <div class="form-group mb-3">
+                <label asp-for="Category" class="form-label fw-bold">Category</label>
+                <input asp-for="Category" class="form-control" placeholder="Enter category (e.g., Drinks, Burgers)" />
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="TimeToPrepareMinutes" class="control-label"></label>
-                <input asp-for="TimeToPrepareMinutes" class="form-control" />
+
+            <div class="form-group mb-4">
+                <label asp-for="TimeToPrepareMinutes" class="form-label fw-bold">Time to Prepare (Minutes)</label>
+                <input asp-for="TimeToPrepareMinutes" type="number" min="1" class="form-control" placeholder="Enter time to prepare" />
                 <span asp-validation-for="TimeToPrepareMinutes" class="text-danger"></span>
             </div>
+
             <input type="hidden" asp-for="RestaurantId" />
-            <div class="form-group">
-                <input type="submit" value="Add Food Item to Menu" class="btn btn-primary" />
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-success">Add Food Item to Menu</button>
+                <a asp-action="Details" asp-route-id="@Model.RestaurantId" class="btn btn-outline-secondary">Back to Restaurant</a>
             </div>
         </form>
     </div>

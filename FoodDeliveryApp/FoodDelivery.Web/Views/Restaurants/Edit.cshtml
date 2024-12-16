@@ -4,56 +4,60 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<div class="hero-section d-flex align-items-center justify-content-center text-white text-center" style="height: 15vh; background: rgba(0, 0, 0, 0.7);">
+    <div>
+        <h1 class="display-6 fw-bold">Edit Restaurant</h1>
+        <p class="lead mb-0">Update the restaurant details below.</p>
+    </div>
+</div>
 
-<h4>Restaurant</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+<div class="container d-flex justify-content-center align-items-center" style="height: 85vh; margin-top: -3vh;">
+    <div class="card shadow-lg p-3 rounded" style="width: 100%; max-width: 450px; background: rgba(255, 255, 255, 0.95);">
+        <form asp-action="Edit" class="needs-validation" novalidate>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+            <div class="form-group mb-2">
+                <label asp-for="Name" class="form-label fw-bold small">Name</label>
+                <input asp-for="Name" class="form-control form-control-sm" placeholder="Restaurant name" required />
+                <span asp-validation-for="Name" class="text-danger small"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
+
+            <div class="form-group mb-2">
+                <label asp-for="Address" class="form-label fw-bold small">Address</label>
+                <input asp-for="Address" class="form-control form-control-sm" placeholder="Restaurant address" required />
+                <span asp-validation-for="Address" class="text-danger small"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+            <div class="form-group mb-2">
+                <label asp-for="PhoneNumber" class="form-label fw-bold small">Phone</label>
+                <input asp-for="PhoneNumber" class="form-control form-control-sm" placeholder="Phone number" required />
+                <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+
+            <div class="form-group mb-2">
+                <label asp-for="Description" class="form-label fw-bold small">Description</label>
+                <textarea asp-for="Description" class="form-control form-control-sm" rows="2" placeholder="Short description" required></textarea>
+                <span asp-validation-for="Description" class="text-danger small"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
+
+            <div class="form-group mb-2">
+                <label asp-for="Image" class="form-label fw-bold small">Image URL</label>
+                <input asp-for="Image" class="form-control form-control-sm" placeholder="Image URL" required />
+                <span asp-validation-for="Image" class="text-danger small"></span>
             </div>
-            @* <div class="form-group">
-                <label asp-for="Rating" class="control-label"></label>
-                <input asp-for="Rating" class="form-control" />
-                <span asp-validation-for="Rating" class="text-danger"></span>
-            </div> *@
+
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="d-grid gap-2 mt-3">
+                <button type="submit" class="btn btn-success btn-sm">Save</button>
+                <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

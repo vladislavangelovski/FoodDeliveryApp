@@ -1,29 +1,37 @@
 ﻿@model FoodDelivery.Domain.DTO.RestaurantRatingDTO
 
-<div class="container">
-    <form method="post" asp-action="Rate">
+@{
+    ViewData["Title"] = "Rate Restaurant";
+}
 
-        <input type="hidden" asp-for="RestaurantId" value="@Model.RestaurantId" class="form-control" />
+<div class="hero-section d-flex align-items-center justify-content-center text-white text-center" style="height: 20vh;">
+    <div>
+        <h1 class="display-5 fw-bold">Rate Restaurant</h1>
+        <p class="lead">Share your experience by rating the restaurant.</p>
+    </div>
+</div>
 
-        <div class="row mt-4">
-            <div class="form-group">
-                <label asp-for="RestaurantName" class="control-label"></label>
-                <input asp-for="RestaurantName" class="form-control" />
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh; margin-top: -5vh;">
+    <div class="card shadow-lg p-4 rounded" style="width: 100%; max-width: 500px; background: rgba(255, 255, 255, 0.95);">
+        <form method="post" asp-action="Rate">
+            <input type="hidden" asp-for="RestaurantId" value="@Model.RestaurantId" />
+
+            <div class="form-group mb-4">
+                <label asp-for="RestaurantName" class="form-label fw-bold">Restaurant Name</label>
+                <input asp-for="RestaurantName" class="form-control" placeholder="Restaurant name" readonly />
                 <span asp-validation-for="RestaurantName" class="text-danger"></span>
             </div>
-        </div>
 
-        <div class="row mt-4">
-            <div class="form-group">
-                <label asp-for="Value" class="control-label"></label>
-                <input asp-for="Value" type="number" class="form-control" />
+            <div class="form-group mb-4">
+                <label asp-for="Value" class="form-label fw-bold">Your Rating</label>
+                <input asp-for="Value" type="number" min="1" max="5" class="form-control" placeholder="Enter a rating between 1 and 5" />
                 <span asp-validation-for="Value" class="text-danger"></span>
             </div>
-        </div>
 
-        <div class="row mt-4">
-            <button type="submit" class="btn btn-success">Rate</button>
-        </div>
-    </form>
-
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-success">Submit Rating</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
 </div>
