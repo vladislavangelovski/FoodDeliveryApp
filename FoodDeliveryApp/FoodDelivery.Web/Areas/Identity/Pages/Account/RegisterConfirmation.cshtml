@@ -1,0 +1,43 @@
+﻿@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Register Confirmation";
+}
+
+<!-- Fullscreen Background -->
+<div class="container-fluid vh-100 d-flex align-items-center justify-content-center">
+
+    <!-- Centered Confirmation Message -->
+    <div class="card shadow-lg text-center"
+         style="width: 100%; max-width: 600px; background: rgba(255, 255, 255, 0.95); border-radius: 15px;">
+        <div class="card-body p-4">
+            <h1 class="fw-bold text-dark">@ViewData["Title"]</h1>
+            <hr />
+
+            @{
+                if (Model.DisplayConfirmAccountLink)
+                {
+                    <p class="text-secondary mb-3">
+                        This app does not currently have a real email sender registered. See
+                        <a href="https://aka.ms/aspaccountconf" target="_blank" class="text-primary">
+                            these docs
+                        </a>
+                        for how to configure a real email sender.
+                    </p>
+                    <p class="fw-bold">
+                        Normally, this link would be emailed:
+                        <a id="confirm-link" href="@Model.EmailConfirmationUrl" class="btn btn-success mt-2">
+                            Click here to confirm your account
+                        </a>
+                    </p>
+                }
+                else
+                {
+                    <p class="text-secondary mb-3">
+                        Please check your email to confirm your account.
+                    </p>
+                }
+            }
+        </div>
+    </div>
+</div>

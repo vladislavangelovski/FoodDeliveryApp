@@ -1,0 +1,25 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Confirm Email";
+}
+
+<!-- Fullscreen Background Section -->
+<div class="container-fluid vh-100 d-flex align-items-center justify-content-center">
+
+    <!-- Confirmation Message Card -->
+    <div class="card shadow-lg text-center p-4"
+         style="max-width: 600px; width: 100%; background: rgba(255, 255, 255, 0.95); border-radius: 10px;">
+        <div class="card-body">
+            <h2 class="fw-bold text-success mb-3">Email Confirmed!</h2>
+            <p class="lead text-dark">
+                Your email has been successfully verified.
+            </p>
+            <div class="mt-4">
+                <a href="/Identity/Account/Login" class="btn btn-primary btn-lg">
+                    Proceed to Login
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
