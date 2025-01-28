@@ -1,0 +1,61 @@
+﻿@model IEnumerable<FoodDelivery.Domain.DomainModels.PawPrintModels.Pet>
+
+<div class="container mt-4">
+    <h1 class="mb-4 text-white">Pets List</h1>
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    </p>
+
+    <table class="table table-dark table-striped table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Breed</th>
+                <th>Avatar</th>
+                <th>Age (Years)</th>
+                <th>Good With Children</th>
+                <th>Good With Dogs</th>
+                <th>Good With Cats</th>
+                <th>Energy Level</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Gender</th>
+                <th>Size</th>
+                <th>Adoption Status</th>
+                <th>Health Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pet in Model)
+            {
+                <tr>
+                    <td>@pet.Name</td>
+                    <td>@pet.Breed</td>
+                    <td>
+                        <img src="@pet.AvatarImg"
+                             alt="Avatar of @pet.Name"
+                             style="width:80px; height:auto;" />
+                    </td>
+                    <td>@pet.AgeYears</td>
+                    <td>@(pet.GoodWithChildren ? "✓" : "")</td>
+                    <td>@(pet.GoodWithDogs ? "✓" : "")</td>
+                    <td>@(pet.GoodWithCats ? "✓" : "")</td>
+                    <td>@pet.EnergyLevel</td>
+                    <td>@(string.IsNullOrEmpty(pet.Description) ? "None" : pet.Description)</td>
+                    <td>@pet.Type?.Name</td>
+                    <td>@pet.Gender?.Name</td>
+                    <td>@pet.Size?.Name</td>
+                    <td>@pet.AdoptionStatus?.Name</td>
+                    <td>@pet.HealthStatus?.Name</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@pet.Id" class="btn btn-secondary btn-sm">Edit</a>
+                        <a asp-action="Details" asp-route-id="@pet.Id" class="btn btn-info btn-sm">Details</a>
+                        <a asp-action="Delete" asp-route-id="@pet.Id" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

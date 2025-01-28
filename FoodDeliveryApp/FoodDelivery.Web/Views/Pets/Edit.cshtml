@@ -1,0 +1,114 @@
+﻿@model FoodDelivery.Domain.DomainModels.PawPrintModels.Pet
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Pet</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Breed" class="control-label"></label>
+                <input asp-for="Breed" class="form-control" />
+                <span asp-validation-for="Breed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AvatarImg" class="control-label"></label>
+                <input asp-for="AvatarImg" class="form-control" />
+                <span asp-validation-for="AvatarImg" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageShowcase" class="control-label"></label>
+                <input asp-for="ImageShowcase" class="form-control" />
+                <span asp-validation-for="ImageShowcase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgeYears" class="control-label"></label>
+                <input asp-for="AgeYears" class="form-control" />
+                <span asp-validation-for="AgeYears" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeId" class="control-label"></label>
+                <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId"></select>
+                <span asp-validation-for="TypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GenderId" class="control-label"></label>
+                <select asp-for="GenderId" class="form-control" asp-items="ViewBag.GenderId"></select>
+                <span asp-validation-for="GenderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SizeId" class="control-label"></label>
+                <select asp-for="SizeId" class="form-control" asp-items="ViewBag.SizeId"></select>
+                <span asp-validation-for="SizeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdoptionStatusId" class="control-label"></label>
+                <select asp-for="AdoptionStatusId" class="form-control" asp-items="ViewBag.AdoptionStatusId"></select>
+                <span asp-validation-for="AdoptionStatusId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HealthStatusId" class="control-label"></label>
+                <select asp-for="HealthStatusId" class="form-control" asp-items="ViewBag.HealthStatusId"></select>
+                <span asp-validation-for="HealthStatusId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="GoodWithChildren" /> @Html.DisplayNameFor(model => model.GoodWithChildren)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="GoodWithDogs" /> @Html.DisplayNameFor(model => model.GoodWithDogs)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="GoodWithCats" /> @Html.DisplayNameFor(model => model.GoodWithCats)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="EnergyLevel" class="control-label"></label>
+                <input asp-for="EnergyLevel" class="form-control" />
+                <span asp-validation-for="EnergyLevel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SpecialRequirements" class="control-label"></label>
+                <input asp-for="SpecialRequirements" class="form-control" />
+                <span asp-validation-for="SpecialRequirements" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BehavioralNotes" class="control-label"></label>
+                <input asp-for="BehavioralNotes" class="form-control" />
+                <span asp-validation-for="BehavioralNotes" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

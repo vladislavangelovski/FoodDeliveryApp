@@ -15,6 +15,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+var postgresConnectionString = builder.Configuration.GetConnectionString("PostgresConnection")
+    ?? throw new InvalidOperationException("Connection string 'PostgresConnection' not found.");
+
+builder.Services.AddDbContext<PawPrintDbcontext>(options =>
+    options.UseNpgsql(postgresConnectionString));
+
 builder.Services.AddDefaultIdentity<Customer>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
@@ -23,11 +29,15 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(ICustomerRepository), typeof(CustomerRepository));
 builder.Services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
 builder.Services.AddScoped(typeof(IRestaurantRepository), typeof(RestaurantRepository));
+builder.Services.AddScoped(typeof(IPawPrintRepository), typeof(PawPrintRepository));
+
 
 builder.Services.AddTransient<IRestaurantService, RestaurantService>();
 builder.Services.AddTransient<IFoodItemService, FoodItemService>();
 builder.Services.AddTransient<IDeliveryService, DeliveryService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IPawPrintService, PawPrintService>();
+
 
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
